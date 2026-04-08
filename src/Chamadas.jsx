@@ -1,34 +1,21 @@
-/*
 import { useState, useEffect } from 'react';
 
-function PainelTV() {
-  const [senha, setSenha] = useState(localStorage.getItem('senha_atual') || "---");
+function Chamadas() {
+  const [senha, setSenha] = useState(localStorage.getItem("senhaAtual") || "");
 
   useEffect(() => {
-    const escutarEvento = (event) => {
-      // O evento 'storage' só dispara quando a alteração vem de OUTRA aba
-      if (event.key === 'senha_atual') {
+    const escutarNovaSenha = (event) => {
+      if (event.key == "senhaAtual") {
         setSenha(event.newValue);
-        // Aqui você pode disparar um som de alerta
-        new Audio('/alerta.mp3').play();
+        //new Audio('/alerta.mp3').play();
       }
-    };
+    }
 
-    window.addEventListener('storage', escutarEvento);
-    
-    // Limpeza ao desmontar o componente
-    return () => window.removeEventListener('storage', escutarEvento);
-  }, []);
+    window.addEventListener('storage', escutarNovaSenha);
 
-  return (
-    <div>
-      <h1>Senha Atual: {senha}</h1>
-    </div>
-  );
-}
-*/
+    return () => window.removeEventListener('storage', escutarNovaSenha);
+  },[])
 
-function Chamadas() {
   var border = "border border-solid border-2 rounded-md p-5 border-slate-600 ";
   var box = `flex flex-col ${border} w-100 h-100`
   return (
@@ -44,7 +31,7 @@ function Chamadas() {
       <div className={box}>
         <h1 className="font-bold text-3xl">Senhas chamadas</h1>
         <ul className="ml-3 mt-3 text-xl">
-          <li> <h1 className="font-bold text-2xl text-red-700">99</h1> </li>
+          <li><h1 className="font-bold text-2xl text-red-700">{senha}</h1> </li>
           <li>98</li>
           <li>97</li>
         </ul>
