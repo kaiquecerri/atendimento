@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
+import falarSenha from "./context/say";
 
 function Chamadas() {
+
   const [senha, setSenha] = useState(
     localStorage.getItem("senhaAtual") || "---",
   );
@@ -13,12 +15,12 @@ function Chamadas() {
     const escutarNovaSenha = (event) => {
       if (event.key == "senhaAtual") {
         setSenha(event.newValue);
-        //new Audio('/alerta.mp3').play();
+        falarSenha(event.newValue);
       }
 
       if (event.key == "listaSenhas") {
         setListaSenhas(event.newValue?.split(","));
-        //new Audio('/alerta.mp3').play();
+        
       }
     };
 
