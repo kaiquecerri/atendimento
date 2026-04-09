@@ -1,21 +1,27 @@
-import { useState } from "react";
-
 function NovaSenha() {
   function novaSenha(tipo = "C") {
     if (tipo == "C") {
-      let listaSenhaCom = localStorage.getItem("listaCom")?.split(",") || [];
+      let ultimaSenha = localStorage.getItem("ultimaCom") || "C0";
+      let listaSenhaCom = localStorage.getItem("listaCom") ? localStorage.getItem("listaCom").split(",") : [];
       let proxSenha =
-        listaSenhaCom.length == 0 ? 1 : (Number(listaSenhaCom[0]) + 1);
-      listaSenhaCom.unshift(proxSenha);
+        ultimaSenha == "C0"
+          ? "C1"
+          : "C" + String(Number(ultimaSenha.slice(1)) + 1);
+      listaSenhaCom.push(proxSenha);
       localStorage.setItem("listaCom", listaSenhaCom);
+      localStorage.setItem("ultimaCom", proxSenha);
 
       return listaSenhaCom;
     } else if (tipo == "P") {
-      let listaSenhaPref = localStorage.getItem("listaPref")?.split(",") || [];
+      let ultimaSenha = localStorage.getItem("ultimaPref") || "P0";
+      let listaSenhaPref = localStorage.getItem("listaPref") ? localStorage.getItem("listaPref").split(",") : [];
       let proxSenha =
-        listaSenhaPref.length == 0 ? 1 : (Number(listaSenhaPref[0]) + 1);
-      listaSenhaPref.unshift(proxSenha);
+        ultimaSenha == "P0"
+          ? "P1"
+          : "P" + String(Number(ultimaSenha.slice(1)) + 1);
+      listaSenhaPref.push(proxSenha);
       localStorage.setItem("listaPref", listaSenhaPref);
+      localStorage.setItem("ultimaPref", proxSenha);
 
       return listaSenhaPref;
     }
