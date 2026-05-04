@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 function Administracao() {
   var border =
     "border border-solid border-2 rounded-full p-5 border-slate-600 ";
@@ -5,7 +7,7 @@ function Administracao() {
     "w-xs self-center bg-sky-200 hover:bg-sky-300 transition-colors duration-300 rounded-full p-5 text-lg font-semibold text-slate-700`;";
 
   const chamarProximaSenha = (tipo = "C") => {
-    let listaSenhas = localStorage.getItem("listaSenhas")?.split(",") || ""; //pega a lista de senha
+let listaSenhas = localStorage.getItem("listaSenhas")?.split(",") || []; //pega a lista de senha
 
     if (tipo == "C") {
       let senhasCom = localStorage.getItem("listaCom")?.split(",") || "";
@@ -16,6 +18,7 @@ function Administracao() {
       var senhaAtual = senhasCom[0];
       senhasCom.shift();
       localStorage.setItem("listaCom", senhasCom);
+      setSenhasCom([...senhasCom]);
     } else {
       let senhasPref = localStorage.getItem("listaPref")?.split(",") || "";
       if (senhasPref[0] == listaSenhas || senhasPref[0] == "") {
@@ -25,6 +28,7 @@ function Administracao() {
       var senhaAtual = senhasPref[0];
       senhasPref.shift();
       localStorage.setItem("listaPref", senhasPref);
+      setSenhasPref([...senhasPref]);
     }
     //pop na ultima senha
     if (listaSenhas == "")
@@ -41,18 +45,42 @@ function Administracao() {
     senha = senhaAtual;
   };
 
+  const [senhasPref, setSenhasPref] = useState(
+    localStorage.getItem("listaPref")?.split(",") || [],
+  );
+
+  const [senhasCom, setSenhasCom] = useState(
+    localStorage.getItem("listaCom")?.split(",") || [],
+  );
+
+  useEffect(() => {
+    const escutarNovaSenha = (event) => {
+
+      if (event.key == "listaCom") {
+        setSenhasCom(event.newValue?.split(",") || []);
+      }
+
+      if (event.key == "listaPref") {
+        setSenhasPref(event.newValue?.split(",") || []);
+      }
+    };
+
+    window.addEventListener("storage", escutarNovaSenha);
+
+    return () => window.removeEventListener("storage", escutarNovaSenha);
+  }, []);
+
+
   return (
     <div className="w-screen h-screen bg-sky-50 flex flex-row justify-center gap-5 p-5">
       <div className="flex flex-col justify-center">
         <h1 className="text-3xl font-bold">Próximas Senhas C</h1>
         <div className="flex flex-row gap-x-5">
-          <h2 className="text-3xl font-semibold text-sky-700 ">C1</h2>
-          <h2 className="text-2xl"> 10 minutos</h2>
+          <h2 className="text-3xl font-semibold text-sky-700 ">{senhasCom[0]}</h2>
         </div>
         <ul className="text-xl">
-          <li>C2</li>
-          <li>C3</li>
-          <li>C4</li>
+          {senhasCom.length > 0 &&
+            senhasCom.slice(1, 5).map((s, index) => <li key={index}>{s}</li>)}
         </ul>
         <button
           className={border + button}
@@ -66,13 +94,11 @@ function Administracao() {
       <div className="flex flex-col text-right justify-center">
         <h1 className="text-3xl font-bold">Próximas Senhas P</h1>
         <div className="flex flex-row gap-x-5 justify-end">
-          <h2 className="text-2xl"> 10 minutos</h2>
-          <h2 className="text-3xl font-semibold text-sky-700 ">P1</h2>
+          <h2 className="text-3xl font-semibold text-sky-700 ">{senhasPref[0]}</h2>
         </div>
         <ul className="text-xl">
-          <li>C2</li>
-          <li>C3</li>
-          <li>C4</li>
+          {senhasPref.length > 0 &&
+            senhasPref.slice(1, 5).map((s, index) => <li key={index}>{s}</li>)}
         </ul>
         <button
           className={border + button}
