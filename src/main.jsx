@@ -6,6 +6,7 @@ import Chamadas from "./Chamadas.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import NovaSenha from "./NovaSenha.jsx";
 import Administracao from "./Administracao.jsx";
+import SenhaGerada from "./SenhaGerada.jsx";
 
 let router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ let router = createBrowserRouter([
     path: "/administracao",
     Component: Administracao,
   },
+  {
+    path: "/senhagerada",
+    Component: SenhaGerada,
+  }
 ]);
 
 createRoot(document.getElementById("root")).render(

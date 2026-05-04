@@ -2,6 +2,16 @@ import { useState, useEffect } from "react";
 import falarSenha from "./context/say";
 
 function Chamadas() {
+  const [dataHora, setDataHora] = useState(atualizarDataHora());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDataHora(atualizarDataHora());
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+  
   function atualizarDataHora() {
     const agora = new Date();
 
@@ -60,12 +70,60 @@ function Chamadas() {
   var border = "border border-solid border-2 rounded-md p-5 border-slate-600 ";
   var box = `flex flex-col ${border} w-100 h-100`;
   return (
-    <div className="w-screen h-screen bg-sky-50 flex flex-col justify-center gap-5 p-5">
-      <div className="w-screen flex flex-row">
+    <div className="w-full h-screen bg-sky-50 flex flex-col justify-center gap-5 p-5">
+      <div className="w-full flex flex-row justify-between">
         <section className="">
           <p className="">{diaSemana} - {diaNumero} de {mes}</p>
-          <p className="">{horaMinuto}</p>
+          <p className="text-2xl">{horaMinuto}</p>
         </section>
+
+        <section className="text-right">
+          <p className="">Tempo de espera aproximado:</p>
+          <p className="text-2xl">{horaMinuto} minutos</p>
+        </section>
+      </div>
+      <div className="w-full flex flex-row justify-between">
+
+        <section className="flex flex-row gap-5">
+          <div className="flex flex-col">
+            <h1 className="font-bold text-3xl">Próximas Senhas</h1>
+            <div className="flex flex-row">
+            <ul className="mt-3 text-xl w-[50%]">
+              <h1>Comum</h1>
+              {senhasCom.length > 0 &&
+                senhasCom.slice(0, 6).map((s, index) => <li key={index}>{s}</li>)}
+                {senhasCom.length > 6 && <li>...</li>}
+            </ul>
+
+            <ul className="mt-3 text-xl w-[50%]">
+              <h1>Preferencial</h1>
+              {senhasPref.length > 0 &&
+                senhasPref.slice(0, 6).map((s, index) => <li key={index}>{s}</li>)}
+                {senhasPref.length > 6 && <li>...</li>}
+            </ul>
+            </div>
+          </div>
+
+          <span className="h-full w-0 border-l"></span>
+
+          <div className="flex flex-col">
+            <h1 className="font-bold text-3xl">Próximas Senhas</h1>
+            <div className="flex flex-row justify-end text-end">
+            <ul className="mt-3 text-xl w-[50%] ">
+              <li>
+                <h1 className="font-bold text-2xl text-sky-700">{listaSenhas[0]}</h1>{" "}
+              </li>
+              <ul>
+                {listaSenhas.length > 0 &&
+                  listaSenhas.slice(1, 6).map((s, index) => <li key={index}>{s}</li>)}
+              </ul>
+            </ul>
+            </div>
+          </div>
+
+        </section>
+
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/gscClPZSn6Q?si=_2Li_ocVTNapsSol&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
     </div>
   );
