@@ -2,6 +2,27 @@ import { useState, useEffect } from "react";
 import falarSenha from "./context/say";
 
 function Chamadas() {
+  function atualizarDataHora() {
+    const agora = new Date();
+
+    let diaSemana = agora.toLocaleDateString('pt-BR', { weekday: 'long' });
+
+    diaSemana = diaSemana.replace('-feira', '');
+    diaSemana = diaSemana.charAt(0).toUpperCase() + diaSemana.slice(1);
+
+    const diaNumero = agora.getDate();
+    const mes = agora.toLocaleDateString('pt-BR', { month: 'long' });
+    const horaMinuto = agora.toLocaleTimeString('pt-BR', {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+    return { diaSemana, diaNumero, mes, horaMinuto };
+  }
+
+  const { diaSemana, diaNumero, mes, horaMinuto } = atualizarDataHora();
+
+  setInterval(atualizarDataHora, 1000);
+  
   const [listaSenhas, setListaSenhas] = useState(
     localStorage.getItem("listaSenhas")?.split(",") || [],
   );
@@ -39,7 +60,20 @@ function Chamadas() {
   var border = "border border-solid border-2 rounded-md p-5 border-slate-600 ";
   var box = `flex flex-col ${border} w-100 h-100`;
   return (
-    <div className="w-screen h-screen bg-blue-100 flex flex-row justify-center gap-5 p-5">
+    <div className="w-screen h-screen bg-sky-50 flex flex-col justify-center gap-5 p-5">
+      <div className="w-screen flex flex-row">
+        <section className="">
+          <p className="">{diaSemana} - {diaNumero} de {mes}</p>
+          <p className="">{horaMinuto}</p>
+        </section>
+      </div>
+    </div>
+  );
+}
+
+export default Chamadas;
+/*
+<div className="w-screen h-screen bg-blue-100 flex flex-row justify-center gap-5 p-5">
       <div className={box}>
         <h1 className="font-bold text-3xl">Próximas senhas</h1>
         <div className="flex flex-row">
@@ -71,7 +105,4 @@ function Chamadas() {
         </ul>
       </div>
     </div>
-  );
-}
-
-export default Chamadas;
+*/
