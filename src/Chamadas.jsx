@@ -45,6 +45,8 @@ function Chamadas() {
     localStorage.getItem("listaCom")?.split(",") || [],
   );
 
+  const [esperaAproximada, setEsperaAproximada] = useState(0);
+
   useEffect(() => {
     const escutarNovaSenha = (event) => {
       if (event.key == "listaSenhas") {
@@ -67,6 +69,10 @@ function Chamadas() {
     return () => window.removeEventListener("storage", escutarNovaSenha);
   }, []);
 
+  useEffect(() => {
+    setEsperaAproximada((senhasCom.length * 5) + (senhasPref.length * 5) + " minutos");
+}, [senhasCom, senhasPref]);
+
   var border = "border border-solid border-2 rounded-md p-5 border-slate-600 ";
   var box = `flex flex-col ${border} w-100 h-100`;
   return (
@@ -79,7 +85,7 @@ function Chamadas() {
 
         <section className="text-right">
           <p className="">Tempo de espera aproximado:</p>
-          <p className="text-2xl">{horaMinuto} minutos</p>
+          <p className="text-2xl">{esperaAproximada}</p>
         </section>
       </div>
       <div className="w-full flex flex-row justify-between">
