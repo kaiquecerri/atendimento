@@ -45,7 +45,6 @@ function Chamadas() {
     localStorage.getItem("listaCom")?.split(",") || [],
   );
 
-  const [esperaAproximada, setEsperaAproximada] = useState(0);
 
   useEffect(() => {
     const escutarNovaSenha = (event) => {
@@ -69,9 +68,6 @@ function Chamadas() {
     return () => window.removeEventListener("storage", escutarNovaSenha);
   }, []);
 
-  useEffect(() => {
-    setEsperaAproximada((senhasCom.length * 5) + (senhasPref.length * 5) + " minutos");
-}, [senhasCom, senhasPref]);
 
   var border = "border border-solid border-2 rounded-md p-5 border-slate-600 ";
   var box = `flex flex-col ${border} w-100 h-100`;
@@ -83,12 +79,9 @@ function Chamadas() {
           <p className="text-2xl">{horaMinuto}</p>
         </section>
 
-        <section className="text-right">
-          <p className="">Tempo de espera aproximado:</p>
-          <p className="text-2xl">{esperaAproximada}</p>
-        </section>
+        
       </div>
-      <div className="w-full flex flex-row justify-between">
+      <div className="w-full flex flex-row justify-around">
 
         <section className="flex flex-row gap-5">
           <div className="flex flex-col">
@@ -129,7 +122,7 @@ function Chamadas() {
 
         </section>
 
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/gscClPZSn6Q?si=_2Li_ocVTNapsSol&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+       <iframe width="560" height="315" src="https://www.youtube.com/embed/04Xa26YOfcw?si=Ly0kWokqzZxNT38q" title="YouTube video player" frameborder="0" allow="loop;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
     </div>
   );
